@@ -18,7 +18,7 @@ export default function CarRankSelector({ cars }) {
   const generatedText = cars
     .map((car) => {
       const formattedName = car.name.toLowerCase().replace(/\s+/g, "_");
-      return `${formattedName}_${carRanks[car.name]}`;
+      return `${formattedName}#${carRanks[car.name]}`;
     })
     .join(",");
 
