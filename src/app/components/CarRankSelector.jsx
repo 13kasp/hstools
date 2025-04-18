@@ -15,6 +15,22 @@ export default function CarRankSelector({ cars }) {
     }));
   };
 
+  const handleTextChange = (newText) => {
+    const newRanks = {};
+    newText.split(",").forEach((entry) => {
+      const [carName, rank] = entry.split("#");
+      if (carName && rank) {
+        const originalCarName = cars.find(
+          (car) => car.name.toLowerCase().replace(/\s+/g, "_") === carName
+        )?.name;
+        if (originalCarName) {
+          newRanks[originalCarName] = rank;
+        }
+      }
+    });
+    setCarRanks((prev) => ({ ...prev, ...newRanks }));
+  };
+
   const generatedText = cars
     .map((car) => {
       const formattedName = car.name.toLowerCase().replace(/\s+/g, "_");
@@ -37,7 +53,10 @@ export default function CarRankSelector({ cars }) {
       </div>
 
       <div className="pt-6">
-        <GeneratedTextDisplay generatedText={generatedText} />
+        <GeneratedTextDisplay
+          generatedText={generatedText}
+          onTextChange={handleTextChange}
+        />
       </div>
     </div>
   );

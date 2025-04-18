@@ -1,16 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function GeneratedTextDisplay({ generatedText }) {
+export default function GeneratedTextDisplay({ generatedText, onTextChange }) {
+  const [text, setText] = useState(generatedText);
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generatedText).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // reset after 2s
+      setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  const handleChange = (event) => {
+    const newText = event.target.value;
+    setText(newText);
+    onTextChange(newText);
+  };
+
+  useEffect(() => {
+    setText(generatedText);
+  }, [generatedText]);
 
   return (
     <div>
@@ -23,12 +34,12 @@ export default function GeneratedTextDisplay({ generatedText }) {
           ({copied ? "copied!" : "click to copy"})
         </span>
       </div>
-      <div
-        className="bg-neutral-900 text-green-400 p-3 rounded font-mono break-all border border-neutral-700 cursor-pointer lg:text-xl"
+      <textarea
+        className="bg-neutral-900 text-green-400 p-3 rounded font-mono break-all border border-neutral-700 cursor-text lg:text-xl w-full min-h-48 focus:outline-none"
+        onChange={handleChange}
         onClick={handleCopy}
-      >
-        {generatedText}
-      </div>
+        value={text}
+      />
     </div>
   );
 }
