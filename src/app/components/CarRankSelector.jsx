@@ -1,12 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import GeneratedTextDisplay from "./GeneratedTextDisplay";
 
 export default function CarRankSelector({ cars }) {
   const [carRanks, setCarRanks] = useState(
     Object.fromEntries(cars.map((car) => [car.name, "X"]))
   );
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const rawData = decodeURIComponent(
+      new URLSearchParams(window.location.search).get("data")
+    );
+    console.log(rawData);
+    if (rawData) {
+      handleTextChange(rawData);
+    }
+  }, []);
 
   const handleRankChange = (carName, rank) => {
     setCarRanks((prev) => ({
@@ -77,7 +90,6 @@ function CarDisplay({ car, image, selected, onChange }) {
           }}
         />
 
-        {/* Overlay content on top of the image */}
         <div className="absolute inset-0 flex flex-col justify-between p-2">
           <div className="bg-black/40 text-white text-lg font-bold p-1 rounded">
             {car}
