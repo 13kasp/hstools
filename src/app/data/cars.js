@@ -62,7 +62,7 @@ const cars = [
   "Taxi",
 ].map((name) => ({
   name,
-  img: `/images/${name.toLowerCase().replace(/\s+/g, "_")}.png`,
+  img: `/images/${name.toLowerCase().replace(/\s+/g, "_")}.webp`,
 }));
 
 export default cars;

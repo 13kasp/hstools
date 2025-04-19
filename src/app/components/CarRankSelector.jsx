@@ -67,27 +67,36 @@ function CarDisplay({ car, image, selected, onChange }) {
     <div className="w-full max-w-48 border border-neutral-700 overflow-hidden rounded">
       <div className="relative aspect-square overflow-hidden rounded rounded-b-none">
         <div
-          className="absolute inset-0 bg-bottom bg-cover"
-          style={{ backgroundImage: `url(${image})` }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundColor: "black",
+          }}
         />
-        <div className="absolute w-full bg-black/40 text-white text-lg font-bold p-1">
-          {car}
+
+        {/* Overlay content on top of the image */}
+        <div className="absolute inset-0 flex flex-col justify-between p-2">
+          <div className="bg-black/40 text-white text-lg font-bold p-1 rounded">
+            {car}
+          </div>
+          <select
+            value={selected === "X" ? "Don't own" : selected}
+            onChange={(e) => onChange(e.target.value)}
+            className="bg-black/60 text-white text-sm p-1 rounded focus:outline-none hover:cursor-pointer"
+          >
+            <option>Don't own</option>
+            <option>SSS</option>
+            <option>SS</option>
+            <option>S</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
         </div>
       </div>
-
-      <select
-        value={selected === "X" ? "Don't own" : selected}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-black text-white text-sm p-2 rounded focus:outline-none hover:cursor-pointer"
-      >
-        <option>Don't own</option>
-        <option>SSS</option>
-        <option>SS</option>
-        <option>S</option>
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
-      </select>
     </div>
   );
 }
