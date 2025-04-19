@@ -85,7 +85,7 @@ function CarDisplay({ car, image, selected, onChange }) {
           <select
             value={selected === "X" ? "Don't own" : selected}
             onChange={(e) => onChange(e.target.value)}
-            className="bg-black/60 text-white text-sm p-1 rounded focus:outline-none hover:cursor-pointer"
+            className="bg-black text-white text-sm p-1 rounded focus:outline-none hover:cursor-pointer"
           >
             <option>Don't own</option>
             <option>SSS</option>
