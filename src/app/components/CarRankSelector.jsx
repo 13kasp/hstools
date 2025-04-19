@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import GeneratedTextDisplay from "./GeneratedTextDisplay";
 
 export default function CarRankSelector({ cars }) {
   const [carRanks, setCarRanks] = useState(
     Object.fromEntries(cars.map((car) => [car.name, "X"]))
   );
-
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const rawData = decodeURIComponent(
