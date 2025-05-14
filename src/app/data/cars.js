@@ -1,4 +1,5 @@
 const cars = [
+  "Quantum",
   "Millennium",
   "Kaiju",
   "Fang",
