@@ -1,23 +1,35 @@
-import CarRankSelector from "./components/CarRankSelector";
-import cars from "./data/cars";
+import { ArrowBigRightDash } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="p-6 lg:p-24">
-      <div className="lg:text-3xl">
-        Select your cars then copy the generated text at the bottom of the page
-        and paste it into the{" "}
-        <span className="text-green-400 bg-neutral-800 p-2 py-1 rounded border border-neutral-700">
-          /loadcardata
-        </span>{" "}
-        discord bot command
-      </div>
+    <div className="relative w-screen h-screen">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="flex flex-col gap-4">
+          <div className="text-6xl">HSTOOLS</div>
 
-      <div className="text-xl pt-4 pb-2 lg:font-bold lg:text-4xl lg:pb-8">
-        Select the ranks of the cars below:
+          <div className="text-3xl flex flex-col gap-2">
+            <Link
+              href="/carsetup"
+              className="group relative inline-block text-white hover:text-green-400 transition-colors duration-150"
+            >
+              <ArrowBigRightDash className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-white group-hover:text-green-300" />
+              <span className="inline-block transform transition-transform duration-150 group-hover:translate-x-6">
+                Setup Cars
+              </span>
+            </Link>
+            <Link
+              href="/liveries"
+              className="group relative inline-block text-white hover:text-green-400 transition-colors duration-150"
+            >
+              <ArrowBigRightDash className="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-white group-hover:text-green-300" />
+              <span className="inline-block transform transition-transform duration-150 group-hover:translate-x-6">
+                Browse Liveries
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
-
-      <CarRankSelector cars={cars} />
     </div>
   );
 }
