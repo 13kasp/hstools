@@ -1,3 +1,12 @@
-export default function Liveries() {
-  return <div>Coming soon... dot dot dot</div>;
+import { db } from "@/db";
+import LiveriesClientWrapper from "../components/LiveriesClientWrapper";
+
+export default async function LiveriesPage() {
+  const liveries = await db.liveries.findMany();
+
+  return (
+    <div>
+      <LiveriesClientWrapper liveries={liveries} />
+    </div>
+  );
 }

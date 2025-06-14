@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
-  title: "HS Helper",
+  title: "HotSlide Tools",
   description: "made by @13kasp",
 };
 
