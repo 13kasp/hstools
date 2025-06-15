@@ -85,17 +85,6 @@ export default function LiveriesDisplay({ liveries, selectedCars, sortBy }) {
 
 function LiveryCard({ livery }) {
   const [loaded, setLoaded] = useState(false);
-  const [timedOut, setTimedOut] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (!loaded) {
-        setTimedOut(true);
-      }
-    }, 5000); // 5 second timeout
-
-    return () => clearTimeout(timeout);
-  }, [loaded]);
 
   function notifyCopy() {
     toast.success(
@@ -112,27 +101,21 @@ function LiveryCard({ livery }) {
       }}
     >
       <div className="w-full h-64 bg-neutral-800 hover:bg-neutral-700 relative">
-        {!loaded && !timedOut && (
+        {!loaded && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-12 h-12 border-4 border-green-400 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
-        {timedOut ? (
-          <div className="w-full h-full flex items-center justify-center text-gray-400 text-center p-4 text-lg">
-            Image not available (try reloading)
-          </div>
-        ) : (
-          <img
-            src={livery.image}
-            alt={livery.livery_name}
-            className={`w-full h-64 object-cover transition-opacity duration-500 ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setLoaded(true)}
-            onError={() => setTimedOut(true)}
-            loading="lazy"
-          />
-        )}
+        <img
+          src={livery.image}
+          alt={livery.livery_name}
+          className={`w-full h-64 object-cover transition-opacity duration-500 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setLoaded(true)}
+          onError={() => setTimedOut(true)}
+          loading="lazy"
+        />
       </div>
       <div className="p-4">
         <div className="text-green-400 font-semibold flex gap-0.5 text-xl">
