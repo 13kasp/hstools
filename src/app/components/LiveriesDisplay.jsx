@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function LiveriesDisplay({ liveries, selectedCars, sortBy }) {
   const [hydrated, setHydrated] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(48);
 
   useEffect(() => {
     setHydrated(true);
@@ -39,26 +40,44 @@ export default function LiveriesDisplay({ liveries, selectedCars, sortBy }) {
     }
   });
 
+  const visibleLiveries = sorted.slice(0, visibleCount);
+
   return (
     <div className="p-4">
-      <div className="mb-4">
+      <div className="mb-4 text-lg">
         <input
           type="text"
-          placeholder="Search liveries..."
+          placeholder={`Search liveries... (${liveries.length} total)`}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setVisibleCount(48); // reset visible count when searching
+          }}
           className="w-full p-3 rounded-md bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none transition"
         />
       </div>
 
-      {sorted.length === 0 ? (
+      {visibleLiveries.length === 0 ? (
         <p className="text-gray-400 text-center">No liveries found</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {sorted.map((livery) => (
-            <LiveryCard key={livery.id} livery={livery} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {visibleLiveries.map((livery) => (
+              <LiveryCard key={livery.id} livery={livery} />
+            ))}
+          </div>
+
+          {visibleCount < sorted.length && (
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 48)}
+                className="px-6 py-4 text-lg w-full bg-green-400 text-black rounded hover:bg-green-300 hover:cursor-pointer transition"
+              >
+                Load More
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
@@ -66,6 +85,17 @@ export default function LiveriesDisplay({ liveries, selectedCars, sortBy }) {
 
 function LiveryCard({ livery }) {
   const [loaded, setLoaded] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!loaded) {
+        setTimedOut(true);
+      }
+    }, 5000); // 5 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [loaded]);
 
   function notifyCopy() {
     toast.success(
@@ -81,21 +111,28 @@ function LiveryCard({ livery }) {
         notifyCopy();
       }}
     >
-      <div className="w-full h-64 bg-neutral-700 relative">
-        {!loaded && (
+      <div className="w-full h-64 bg-neutral-800 hover:bg-neutral-700 relative">
+        {!loaded && !timedOut && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-12 h-12 border-4 border-green-400 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
-        <img
-          src={livery.image}
-          alt={livery.livery_name}
-          className={`w-full h-64 object-cover transition-opacity duration-500 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          onLoad={() => setLoaded(true)}
-          loading="lazy"
-        />
+        {timedOut ? (
+          <div className="w-full h-full flex items-center justify-center text-gray-400 text-center p-4 text-lg">
+            Image not available (try reloading)
+          </div>
+        ) : (
+          <img
+            src={livery.image}
+            alt={livery.livery_name}
+            className={`w-full h-64 object-cover transition-opacity duration-500 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={() => setLoaded(true)}
+            onError={() => setTimedOut(true)}
+            loading="lazy"
+          />
+        )}
       </div>
       <div className="p-4">
         <div className="text-green-400 font-semibold flex gap-0.5 text-xl">

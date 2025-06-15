@@ -21,6 +21,7 @@ const cars = [
   "Duster",
   "Protos",
   "Spectre",
+  "Samurai",
   "Bandit",
   "Predator",
   "Time Machine",

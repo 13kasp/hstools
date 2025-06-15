@@ -7,6 +7,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import React, { useState } from "react";
+import carData from "@/app/data/cars";
 
 export default function LiveryOptions({
   cars,
@@ -75,11 +76,14 @@ export default function LiveryOptions({
             <div className="grid grid-cols-2 gap-2 lg:max-h-[40vh] max-h-[30vh] overflow-auto lg:pr-1">
               {sortedCars.map((car) => {
                 const isSelected = selectedCars.includes(car);
+                const carInfo = carData.find((c) => c.name === car);
+                const carImg = carInfo?.img ?? "/images/default_car.webp";
+
                 return (
                   <div
                     key={car}
                     onClick={() => toggleCar(car)}
-                    className={`cursor-pointer rounded-md p-3 py-2 text-center transition select-none bg-neutral-800 hover:bg-neutral-700 
+                    className={`cursor-pointer rounded-md p-3 py-2 justify-center align-middle transition select-none bg-neutral-800 hover:bg-neutral-700 flex items-center gap-2
                       ${
                         isSelected
                           ? "border border-green-400 text-green-400"
@@ -88,7 +92,12 @@ export default function LiveryOptions({
                     `}
                     title={car}
                   >
-                    {car}
+                    <img
+                      src={carImg}
+                      alt={car}
+                      className="w-6 h-6 object-contain"
+                    />
+                    <span className="truncate">{car}</span>
                   </div>
                 );
               })}
