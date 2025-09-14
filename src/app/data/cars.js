@@ -1,4 +1,8 @@
 const cars = [
+  "Excalibur",
+  "Elixeer",
+  "Scorpion",
+  "Samurai",
   "Quantum",
   "Millennium",
   "Kaiju",
@@ -21,7 +25,6 @@ const cars = [
   "Duster",
   "Protos",
   "Spectre",
-  "Samurai",
   "Bandit",
   "Predator",
   "Time Machine",
